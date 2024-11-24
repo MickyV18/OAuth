@@ -1,4 +1,0 @@
-Django>=4.0,<5.0
-supabase
-python-jose
-django-allauth
