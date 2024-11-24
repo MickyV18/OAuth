@@ -1,7 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
-from app.config import settings
 import httpx
+from fastapi import APIRouter, HTTPException, Form
+from fastapi.responses import RedirectResponse
+from config import settings
 
 router = APIRouter()
 
@@ -56,3 +58,13 @@ async def callback(code: str):
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.post("/auth/login")
+async def login(username: str = Form(...), password: str = Form(...)):
+    # Tambahkan logika verifikasi kredensial (contoh sederhana)
+    if username == "testuser" and password == "testpass":
+        # Redirect ke halaman utama setelah login berhasil
+        response = RedirectResponse(url="/", status_code=302)
+        response.set_cookie(key="user", value=username)
+        return response
+    raise HTTPException(status_code=400, detail="Invalid credentials")
