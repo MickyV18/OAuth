@@ -127,7 +127,7 @@ def manual_login(username: str = Form(...), password: str = Form(...)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
 
-templates = Jinja2Templates(directory="app/templates")
+templates = Jinja2Templates(directory="templates")
 
 @router.get("/login-page", response_class=HTMLResponse)
 def login_page(request: Request):

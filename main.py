@@ -11,7 +11,7 @@ app = FastAPI()
 
 # Directly serve the index.html at the root route
 @app.get("/", response_class=HTMLResponse)
-def landing_page(request: Request):
+def index_page(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 # Register auth router (if needed for other routes)

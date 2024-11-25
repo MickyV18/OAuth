@@ -3,12 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Landing Page</title>
+    <title>Login</title>
   </head>
   <body>
-    <h1>Welcome to Our Website</h1>
-    <p>Click the button below to log in.</p>
-    <a href="/auth/login-page"><button>Go to Login Page</button></a>
-    <a href="/auth/register-page"><button>Go to Register Page</button></a>
+    <h1>Login</h1>
+    <form method="post" action="/auth/manual-login">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+      <button type="submit">Login</button>
+    </form>
+    <br />
+    <a href="/auth/login">Login with Google</a>
   </body>
 </html>
