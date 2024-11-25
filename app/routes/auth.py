@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException
+from fastapi import Form
 from fastapi.responses import RedirectResponse
-import httpx
-from fastapi import APIRouter, HTTPException, Form
-from fastapi.responses import RedirectResponse
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
 from app.config import settings
+import httpx
 
 router = APIRouter()
 
@@ -12,7 +14,7 @@ GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
 
-@router.get("/login-google")
+@router.get("/login")
 def login_with_google():
     params = {
         "client_id": settings.GOOGLE_CLIENT_ID,
@@ -59,12 +61,18 @@ async def callback(code: str):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@router.post("/auth/login")
-async def login(username: str = Form(...), password: str = Form(...)):
-    # Tambahkan logika verifikasi kredensial (contoh sederhana)
-    if username == "testuser" and password == "testpass":
-        # Redirect ke halaman utama setelah login berhasil
-        response = RedirectResponse(url="/", status_code=302)
-        response.set_cookie(key="user", value=username)
-        return response
-    raise HTTPException(status_code=400, detail="Invalid credentials")
+
+@router.post("/manual-login")
+def manual_login(username: str = Form(...), password: str = Form(...)):
+    # Validasi username dan password di sini
+    if username == "admin" and password == "password123":
+        return {"message": "Login successful"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+
+templates = Jinja2Templates(directory="templates")
+
+@router.get("/login-page", response_class=HTMLResponse)
+def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})

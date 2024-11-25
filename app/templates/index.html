@@ -1,8 +1,22 @@
-{% extends "base.html" %} {% block content %}
-<h1 class="text-center">Welcome!</h1>
-<p class="text-center">Choose an action:</p>
-<div class="d-flex justify-content-center">
-  <a href="/auth/login" class="btn btn-primary mx-2">Login</a>
-  <a href="/auth/register" class="btn btn-secondary mx-2">Register</a>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form method="post" action="/auth/manual-login">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+      <br />
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+      <br />
+      <button type="submit">Login</button>
+    </form>
+    <br />
+    <a href="/auth/login">Login with Google</a>
+  </body>
+</html>

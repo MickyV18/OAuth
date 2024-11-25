@@ -1,11 +1,18 @@
 from fastapi import FastAPI
-from app.routes import auth, views
-import uvicorn
+from fastapi.staticfiles import StaticFiles
+from app.routes import auth
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
+from fastapi import Request
+
+templates = Jinja2Templates(directory="app/templates")
 
 app = FastAPI()
 
-app.include_router(views.router, tags=["views"])
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
+# Directly serve the index.html at the root route
+@app.get("/", response_class=HTMLResponse)
+def index_page(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, log_level="info")
+# Register auth router (if needed for other routes)
+app.include_router(auth.router, prefix="/auth")
