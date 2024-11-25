@@ -3,7 +3,7 @@ from fastapi.responses import RedirectResponse
 import httpx
 from fastapi import APIRouter, HTTPException, Form
 from fastapi.responses import RedirectResponse
-from config import settings
+from app.config import settings
 
 router = APIRouter()
 
